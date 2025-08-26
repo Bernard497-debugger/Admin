@@ -18,7 +18,8 @@ footer { text-align:center; padding:15px; background:#eee; margin-top:20px; }
 <header>
 <h1>Admin Panel</h1>
 </header>
-<form action="/upload" method="POST" enctype="multipart/form-data">
+
+<form id="uploadForm">
 <label for="name">App Name</label>
 <input type="text" name="name" required>
 
@@ -32,9 +33,38 @@ footer { text-align:center; padding:15px; background:#eee; margin-top:20px; }
 <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp" required>
 
 <button type="submit">Upload App</button>
+<p id="status"></p>
 </form>
+
 <footer>
 Khali App Store Admin
 </footer>
+
+<script>
+// Replace this URL with your Render backend upload endpoint
+const UPLOAD_URL = "https://your-backend.onrender.com/upload";
+
+const form = document.getElementById("uploadForm");
+const status = document.getElementById("status");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    fetch(UPLOAD_URL, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        status.textContent = data.message || "Uploaded successfully!";
+        form.reset();
+    })
+    .catch(err => {
+        status.textContent = "Error uploading app";
+        console.error(err);
+    });
+});
+</script>
 </body>
 </html>
