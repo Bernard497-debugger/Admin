@@ -20,7 +20,7 @@ footer { text-align:center; padding:15px; background:#eee; margin-top:20px; }
 <h1>Admin Panel</h1>
 </header>
 
-<form id="uploadForm">
+<form id="uploadForm" enctype="multipart/form-data">
 <label for="name">App Name</label>
 <input type="text" name="name" required>
 
@@ -42,7 +42,7 @@ Khali App Store Admin
 </footer>
 
 <script>
-// Replace with your Render backend upload URL
+// Replace with your Render backend URL
 const UPLOAD_URL = "https://your-backend.onrender.com/upload";
 
 const form = document.getElementById("uploadForm");
