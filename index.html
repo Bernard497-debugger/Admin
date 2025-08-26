@@ -11,6 +11,7 @@ form { max-width:400px; margin:30px auto; background:white; padding:20px; border
 input[type=text], input[type=file], textarea { width:100%; padding:10px; margin:5px 0 15px; border-radius:5px; border:1px solid #ccc; }
 button { padding:10px 15px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; }
 button:hover { background:#45A049; }
+#status { margin-top:10px; color:#333; font-weight:bold; }
 footer { text-align:center; padding:15px; background:#eee; margin-top:20px; }
 </style>
 </head>
@@ -41,7 +42,7 @@ Khali App Store Admin
 </footer>
 
 <script>
-// Replace this URL with your Render backend upload endpoint
+// Replace with your Render backend upload URL
 const UPLOAD_URL = "https://your-backend.onrender.com/upload";
 
 const form = document.getElementById("uploadForm");
