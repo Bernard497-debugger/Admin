@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Khali App Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #eef2f5; margin: 0; padding: 0; }
+    header { background: #333; color: white; padding: 15px; text-align: center; }
+    form { max-width: 500px; margin: 30px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    input, textarea { width: 100%; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    button { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #218838; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Admin Panel - Upload App</h1>
+  </header>
+
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="App Name" required>
+    <textarea name="description" placeholder="App Description" required></textarea>
+    <label>App File:</label>
+    <input type="file" name="file" required>
+    <label>App Image:</label>
+    <input type="file" name="image" accept="image/*" required>
+    <button type="submit">Upload</button>
+  </form>
+</body>
+<style>html{
+ color:darkviolet;
+ font-size:25px;
+ font-weight:600;
+}
+</style><script>/*Here write your javascript code*/</script></html>
