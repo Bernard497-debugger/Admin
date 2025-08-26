@@ -3,19 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin Panel - Khali App Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+/* Base styles */
 body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
 header { background:#4CAF50; color:white; padding:20px; text-align:center; }
 h1 { margin:0; font-size:2em; }
-form { max-width:400px; margin:30px auto; background:white; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
-input[type=text], input[type=file], textarea { width:100%; padding:10px; margin:5px 0 15px; border-radius:5px; border:1px solid #ccc; }
-button { padding:10px 15px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; }
+
+/* Form container */
+form { max-width:500px; margin:30px auto; background:white; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
+
+/* Inputs and textarea */
+input[type=text], input[type=file], textarea {
+    width:100%;
+    padding:10px;
+    margin:5px 0 15px;
+    border-radius:5px;
+    border:1px solid #ccc;
+    box-sizing:border-box;
+}
+
+/* Button */
+button { padding:12px 20px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; width:100%; }
 button:hover { background:#45A049; }
-#status { margin-top:10px; color:#333; font-weight:bold; }
+
+/* Status message */
+#status { margin-top:10px; color:#333; font-weight:bold; text-align:center; }
+
+/* Footer */
 footer { text-align:center; padding:15px; background:#eee; margin-top:20px; }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    form { margin:20px; padding:15px; }
+    h1 { font-size:1.5em; }
+    button { padding:10px; }
+}
 </style>
 </head>
 <body>
+
 <header>
 <h1>Admin Panel</h1>
 </header>
