@@ -1,98 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Admin Panel - Khali App Store</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-/* Base styles */
-body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0; }
-header { background:#4CAF50; color:white; padding:20px; text-align:center; }
-h1 { margin:0; font-size:2em; }
-
-/* Form container */
-form { max-width:500px; margin:30px auto; background:white; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
-
-/* Inputs and textarea */
-input[type=text], input[type=file], textarea {
-    width:100%;
-    padding:10px;
-    margin:5px 0 15px;
-    border-radius:5px;
-    border:1px solid #ccc;
-    box-sizing:border-box;
-}
-
-/* Button */
-button { padding:12px 20px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; width:100%; }
-button:hover { background:#45A049; }
-
-/* Status message */
-#status { margin-top:10px; color:#333; font-weight:bold; text-align:center; }
-
-/* Footer */
-footer { text-align:center; padding:15px; background:#eee; margin-top:20px; }
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    form { margin:20px; padding:15px; }
-    h1 { font-size:1.5em; }
-    button { padding:10px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Khali Admin Panel</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:20px; background:#f4f6fa; }
+    h1 { color:#333; }
+    form { background:#fff; padding:16px; border-radius:8px; margin-bottom:24px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    label { display:block; margin-top:8px; }
+    input, textarea { width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:4px; }
+    button { margin-top:12px; padding:8px 12px; border:none; border-radius:4px; background:#2196f3; color:#fff; cursor:pointer; }
+    button:hover { background:#1976d2; }
+    table { width:100%; border-collapse:collapse; margin-top:16px; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    th, td { padding:12px; border-bottom:1px solid #eee; text-align:left; }
+    th { background:#f0f0f0; }
+    .delete-btn { background:#f44336; color:#fff; border:none; padding:6px 10px; border-radius:4px; cursor:pointer; }
+    .delete-btn:hover { background:#c62828; }
+  </style>
 </head>
 <body>
+  <h1>⚙️ Khali Admin Panel</h1>
 
-<header>
-<h1>Admin Panel</h1>
-</header>
+  <form id="appForm" enctype="multipart/form-data">
+    <h3>Add New App</h3>
+    <label>Name <input type="text" name="name" required></label>
+    <label>Description <textarea name="desc" required></textarea></label>
+    <label>App File <input type="file" name="file" required></label>
+    <button type="submit">Upload App</button>
+  </form>
 
-<form id="uploadForm" enctype="multipart/form-data">
-<label for="name">App Name</label>
-<input type="text" name="name" required>
+  <h3>Existing Apps</h3>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Description</th><th>File</th><th>Action</th></tr>
+    </thead>
+    <tbody id="appsTable"></tbody>
+  </table>
 
-<label for="description">Description</label>
-<textarea name="description" rows="3" required></textarea>
+  <script>
+    const API_URL = "https://YOUR-BACKEND-URL.onrender.com"; // change after deployment
 
-<label for="file">App File (.apk, .zip, etc.)</label>
-<input type="file" name="file" accept=".apk,.zip,.exe,.msi,.dmg,.pkg" required>
+    async function loadApps() {
+      const res = await fetch(API_URL + "/apps");
+      const apps = await res.json();
+      const table = document.getElementById("appsTable");
+      table.innerHTML = "";
+      apps.forEach(app => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${app.id}</td>
+          <td>${app.name}</td>
+          <td>${app.desc}</td>
+          <td><a href="${API_URL}/download/${app.id}" target="_blank">${app.filename}</a></td>
+          <td><button class="delete-btn" onclick="deleteApp(${app.id})">Delete</button></td>
+        `;
+        table.appendChild(row);
+      });
+    }
 
-<label for="image">App Image (.jpg, .png, etc.)</label>
-<input type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp" required>
+    async function deleteApp(id) {
+      if(confirm("Delete this app?")) {
+        await fetch(API_URL + "/apps/" + id, { method:"DELETE" });
+        loadApps();
+      }
+    }
 
-<button type="submit">Upload App</button>
-<p id="status"></p>
-</form>
-
-<footer>
-Khali App Store Admin
-</footer>
-
-<script>
-// Replace with your Render backend URL
-const UPLOAD_URL = "https://your-backend.onrender.com/upload";
-
-const form = document.getElementById("uploadForm");
-const status = document.getElementById("status");
-
-form.addEventListener("submit", function(e){
-    e.preventDefault();
-    const formData = new FormData(form);
-
-    fetch(UPLOAD_URL, {
-        method: "POST",
+    document.getElementById("appForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      await fetch(API_URL + "/apps", {
+        method:"POST",
         body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        status.textContent = data.message || "Uploaded successfully!";
-        form.reset();
-    })
-    .catch(err => {
-        status.textContent = "Error uploading app";
-        console.error(err);
+      });
+      e.target.reset();
+      loadApps();
     });
-});
-</script>
+
+    loadApps();
+  </script>
 </body>
 </html>
